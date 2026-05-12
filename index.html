@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Info</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            padding: 28px 32px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 12px 18px;
+            flex: 1 1 180px;
+        }
+
+        .label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 15px;
+            font-weight: 500;
+            color: #111;
+            word-break: break-all;
+        }
+
+        .value.empty {
+            color: #bbb;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* Inputs card */
+        .inputs-card {
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+        }
+
+        .inputs-card .label {
+            margin-bottom: 12px;
+        }
+
+        .inputs-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 160px;
+            gap: 4px;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .input-group input {
+            padding: 8px 10px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #111;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.15s;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            border-color: #a5b4fc;
+        }
+
+        /* Button card */
+        .btn-card {
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px 18px;
+        }
+
+        .btn-card .label {
+            margin-bottom: 12px;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1 1 140px;
+            padding: 9px 14px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.1s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-list {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+
+        .btn-create {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+
+        .btn-detail {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #ddd6fe;
+        }
+
+        .btn-quickview {
+            background: #ffedd5;
+            color: #c2410c;
+            border-color: #fed7aa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Customer Information</h2>
+
+        <!-- Customer info cards -->
+        <div class="row" id="row"></div>
+
+        <!-- Inputs card -->
+        <div class="inputs-card">
+            <div class="label">Parameters</div>
+            <div class="inputs-row">
+                <div class="input-group">
+                    <label for="input_opname">Operation Name</label>
+                    <input id="input_opname" type="text" placeholder="e.g. navigation" />
+                </div>
+                <div class="input-group">
+                    <label for="input_viewname">View Name</label>
+                    <input id="input_viewname" type="text" placeholder="e.g. list" />
+                </div>
+                <div class="input-group">
+                    <label for="input_routekey">Route Key</label>
+                    <input id="input_routekey" type="text" placeholder="e.g. /home" />
+                </div>
+                <div class="input-group">
+                    <label for="input_objkey">Object Key</label>
+                    <input id="input_objkey" type="text" placeholder="e.g. obj-123" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Button card -->
+        <div class="btn-card">
+            <div class="label">Actions</div>
+            <div class="btn-row">
+                <button class="btn btn-list" onclick="openList()">Open List</button>
+                <button class="btn btn-create" onclick="openCreate()">Open Create</button>
+                <button class="btn btn-detail" onclick="opendetail()">Open Detail</button>
+                <button class="btn btn-quickview" onclick="openquickview()">Quick View</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fields = [
+            { key: 'custid', label: 'Customer ID' },
+            { key: 'extcustid', label: 'External Customer ID' },
+            { key: 'cust_uuid', label: 'Customer UUID' },
+            { key: 'cust_name', label: 'Customer Name' },
+            { key: 'routing_key', label: 'Routing Key' },
+        ];
+
+        const params = new URLSearchParams(window.location.search);
+        const row = document.getElementById('row');
+
+        // Auto-populate route key input from URL param
+        const routingKeyParam = params.get('routing_key');
+        if (routingKeyParam) document.getElementById('input_routekey').value = routingKeyParam;
+
+        fields.forEach(({ key, label }) => {
+            const val = params.get(key);
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+        <div class="label">${label}</div>
+        <div class="value ${val ? '' : 'empty'}">${val ? val.replace(/</g, '&lt;') : 'Not provided'}</div>
+      `;
+            row.appendChild(card);
+        });
+
+        function validate_input() {
+            var route = document.getElementById("input_routekey").value;
+            if (!route) throw new Error("Routing key is required.");
+        }
+
+        function openList() {
+            oper = "navigation";
+            document.getElementById("input_opname").value = oper;
+            view = "list";
+            document.getElementById("input_viewname").value = view;
+            route = document.getElementById("input_routekey").value;
+            try { validate_input(); } catch (error) { console.error(error.message); }
+            oList = {
+                operation: oper,
+                params: {
+                    routingKey: route,
+                    viewType: view
+                }
+            }
+            window.parent.postMessage(oList, "*");
+        }
+
+        function openCreate() {
+            oper = "navigation";
+            document.getElementById("input_opname").value = oper;
+            view = "quickcreate";
+            document.getElementById("input_viewname").value = view;
+            route = document.getElementById("input_routekey").value;
+            window.parent.postMessage({ operation: oper, params: { routingKey: route, viewType: view } }, "*");
+        }
+
+        function opendetail() {
+            oper = "navigation";
+            document.getElementById("input_opname").value = oper;
+            view = "details";
+            document.getElementById("input_viewname").value = view;
+            route = document.getElementById("input_routekey").value;
+            objkey = document.getElementById("input_objkey").value;
+            window.parent.postMessage({ operation: oper, params: { objectKey: objkey, routingKey: route, viewType: view } }, "*");
+        }
+
+        function openquickview() {
+            oper = "navigation";
+            document.getElementById("input_opname").value = oper;
+            view = "quickview";
+            document.getElementById("input_viewname").value = view;
+            objkey = document.getElementById("input_objkey").value;
+            route = document.getElementById("input_routekey").value;
+            window.parent.postMessage({ operation: oper, params: { objectKey: objkey, routingKey: route, viewType: view } }, "*");
+        }
+    </script>
+</body>
+
+</html>

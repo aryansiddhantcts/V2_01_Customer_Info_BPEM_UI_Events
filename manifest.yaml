@@ -1,0 +1,9 @@
+---
+applications:
+- name: ext-customer-info
+  memory: 128M
+  buildpack: https://github.com/cloudfoundry/staticfile-buildpack
+  routes:
+    - route: ext-customer-info.cfapps.us21.hana.ondemand.com
+  env: 
+    OPTIMIZE_MEMORY: "true"

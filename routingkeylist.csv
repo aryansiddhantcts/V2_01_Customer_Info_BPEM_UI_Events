@@ -1,0 +1,30 @@
+Entity	Routing Key	List View Support	Detail View Support	
+			nodeid	displayId
+Accounts	mdaccount			
+Contacts	mdcontact			
+Case	case			
+Agent Desktop	agentdesk			
+Chats	chat			
+Competitors	mdcompetitor			
+Contract Account	contractaccount			
+Employees	mdemployee			
+Individual Customers	mdindividualcustomer			
+Leads	lead			
+Library	library			
+Messages	message			
+Partners	mdpartner			
+Phone Calls	phone			
+Premise	premise			
+Products	mdproduct			
+Appointments	appointment			
+Guided Selling	guidedselling			
+Sales Quotes	sales-quote			
+Surveys	survey			
+Registered Product	registeredProduct			
+Functional Location	functionalLocation			
+Functional Location	installationPoint			
+Installed Base	installedBase			
+Product Installation Point	productInstallPoint			
+Task	task			
+Visit	visit			
+Service Contracts	service-contract			
