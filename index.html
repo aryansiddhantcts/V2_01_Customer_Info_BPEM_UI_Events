@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customer Info</title>
+  <title>Utilities Exception</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,192 +23,187 @@
       width: 100%;
     }
 
-    h2 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 20px;
-    }
+    h2 { font-size: 16px; font-weight: 600; color: #111; margin-bottom: 20px; }
 
-    /* ── Section wrapper ── */
-    .section {
-      margin-bottom: 16px;
-    }
+    /* ── Section ── */
+    .section { margin-bottom: 16px; }
 
-    /* ── Section header with toggle ── */
     .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      cursor: pointer;
-      user-select: none;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px; cursor: pointer; user-select: none;
     }
 
     .section-title {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 500;
+      font-size: 11px; color: #888;
+      text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500;
     }
 
     .toggle-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      color: #aaa;
-      background: none;
-      border: 1px solid #e8e8e8;
-      border-radius: 4px;
-      padding: 2px 8px;
-      cursor: pointer;
-      font-family: inherit;
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; color: #aaa;
+      background: none; border: 1px solid #e8e8e8; border-radius: 4px;
+      padding: 2px 8px; cursor: pointer; font-family: inherit;
       transition: color 0.15s, border-color 0.15s;
     }
-
     .toggle-btn:hover { color: #555; border-color: #ccc; }
-
-    .toggle-btn .arrow {
-      display: inline-block;
-      transition: transform 0.2s ease;
-      font-style: normal;
-    }
-
+    .toggle-btn .arrow { display: inline-block; transition: transform 0.2s ease; font-style: normal; }
     .section.collapsed .toggle-btn .arrow { transform: rotate(-90deg); }
 
-    /* ── Collapsible body ── */
     .section-body {
       overflow: hidden;
-      transition: max-height 0.25s ease, opacity 0.2s ease;
-      max-height: 400px;
-      opacity: 1;
+      transition: max-height 0.3s ease, opacity 0.2s ease;
+      max-height: 1000px; opacity: 1;
     }
+    .section.collapsed .section-body { max-height: 0; opacity: 0; }
 
-    .section.collapsed .section-body {
-      max-height: 0;
-      opacity: 0;
-    }
-
-    /* ── Info cards row ── */
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+    /* ── Info cards ── */
+    .row { display: flex; flex-wrap: wrap; gap: 12px; }
 
     .card {
-      background: #f9f9f9;
-      border: 1px solid #e8e8e8;
-      border-radius: 8px;
-      padding: 12px 18px;
-      flex: 1 1 180px;
+      background: #f9f9f9; border: 1px solid #e8e8e8;
+      border-radius: 8px; padding: 12px 18px; flex: 1 1 180px;
     }
 
-    .label {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 4px;
-    }
-
-    .value {
-      font-size: 15px;
-      font-weight: 500;
-      color: #111;
-      word-break: break-all;
-    }
-
-    .value.empty {
-      color: #bbb;
-      font-weight: 400;
-      font-style: italic;
-    }
+    .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .value { font-size: 15px; font-weight: 500; color: #111; word-break: break-all; }
+    .value.empty { color: #bbb; font-weight: 400; font-style: italic; }
 
     /* ── Inputs card ── */
-    .inputs-card {
-      background: #f9f9f9;
-      border: 1px solid #e8e8e8;
-      border-radius: 8px;
-      padding: 16px 18px;
-    }
-
-    .inputs-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 160px;
-      gap: 4px;
-    }
-
-    .input-group label {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
+    .inputs-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
+    .inputs-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .input-group { display: flex; flex-direction: column; flex: 1 1 160px; gap: 4px; }
+    .input-group label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.08em; }
     .input-group input {
-      padding: 8px 10px;
-      border: 1px solid #e8e8e8;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #111;
-      background: #fff;
-      outline: none;
-      transition: border-color 0.15s;
-      font-family: inherit;
+      padding: 8px 10px; border: 1px solid #e8e8e8; border-radius: 6px;
+      font-size: 13px; color: #111; background: #fff; outline: none;
+      transition: border-color 0.15s; font-family: inherit;
     }
-
     .input-group input:focus { border-color: #a5b4fc; }
 
     /* ── Button card ── */
-    .btn-card {
-      background: #f9f9f9;
-      border: 1px solid #e8e8e8;
-      border-radius: 8px;
-      padding: 16px 18px;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
+    .btn-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
     .btn {
-      flex: 1 1 140px;
-      padding: 9px 14px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
-      font-family: inherit;
+      flex: 1 1 140px; padding: 9px 14px; border: 1px solid transparent;
+      border-radius: 6px; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: opacity 0.15s, transform 0.1s; font-family: inherit;
     }
-
     .btn:hover  { opacity: 0.8; }
     .btn:active { transform: scale(0.97); }
-
     .btn-list      { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
     .btn-create    { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
     .btn-detail    { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; }
     .btn-quickview { background: #ffedd5; color: #c2410c; border-color: #fed7aa; }
+
+    /* ── BPEM Case Table Card ── */
+    .table-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
+
+    /* Status bar */
+    .table-status { font-size: 12px; color: #888; margin-bottom: 10px; min-height: 18px; }
+    .table-status.error   { color: #dc2626; }
+    .table-status.success { color: #15803d; }
+    .table-status.loading { color: #1d4ed8; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; border-radius: 6px; border: 1px solid #e8e8e8; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; }
+    thead tr { background: #f1f5f9; }
+    th {
+      text-align: left; padding: 10px 14px;
+      font-size: 11px; font-weight: 600; color: #555;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      border-bottom: 1px solid #e8e8e8; white-space: nowrap;
+    }
+    td { padding: 10px 14px; color: #111; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #fafafa; }
+
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+    .badge-open    { background: #dcfce7; color: #15803d; }
+    .badge-closed  { background: #f1f5f9; color: #64748b; }
+    .badge-pending { background: #ffedd5; color: #c2410c; }
+    .badge-default { background: #ede9fe; color: #6d28d9; }
+
+    .no-data { text-align: center; padding: 32px; color: #aaa; font-size: 13px; font-style: italic; }
+
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid #e8e8e8; border-top-color: #1d4ed8;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Customer Information</h2>
+    <h2>Utilities Exception</h2>
 
-    <!-- URL Parameters section (hidden by default) -->
+    <!-- Actions (visible by default) -->
+    <div class="section" id="section-actions">
+      <div class="section-header" onclick="toggleSection('section-actions')">
+        <span class="section-title">Actions</span>
+        <button class="toggle-btn"><i class="arrow">▾</i> <span class="toggle-label">Hide</span></button>
+      </div>
+      <div class="section-body">
+        <div class="btn-card">
+          <div class="btn-row">
+            <button class="btn btn-list"      onclick="openList()">Open List</button>
+            <button class="btn btn-create"    onclick="openCreate()">Open Create</button>
+            <button class="btn btn-detail"    onclick="opendetail()">Open Detail</button>
+            <button class="btn btn-quickview" onclick="openquickview()">Quick View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BPEM Case List (visible by default) -->
+    <div class="section" id="section-cases">
+      <div class="section-header" onclick="toggleSection('section-cases')">
+        <span class="section-title">BPEM Case List</span>
+        <button class="toggle-btn"><i class="arrow">▾</i> <span class="toggle-label">Hide</span></button>
+      </div>
+      <div class="section-body">
+        <div class="table-card">
+
+          <!-- Hidden config: OData URL, client, credentials -->
+          <div style="display:none">
+            <input id="odata-url"    type="text"     value="/sap/opu/odata/sap/Z_C_BPEM_CASE_ODATA_CDS/Z_C_BPEM_CASE_ODATA/" />
+            <input id="odata-client" type="text"     value="400" />
+            <input id="odata-user"   type="text"     value="ASIDDHANT" />
+            <input id="odata-pass"   type="password" value="Oneplus!8t" />
+          </div>
+
+          <!-- Status -->
+          <div class="table-status" id="table-status"></div>
+
+          <!-- Table -->
+          <div class="table-wrap">
+            <table id="case-table">
+              <thead>
+                <tr>
+                  <th>Case ID</th>
+                  <th>Case Category</th>
+                  <th>Case Description</th>
+                  <th>Case Status</th>
+                  <th>Related Contract Account</th>
+                  <th>Related Premise</th>
+                  <th>Team</th>
+                  <th>Due Date</th>
+                </tr>
+              </thead>
+              <tbody id="case-tbody">
+                <tr><td colspan="8" class="no-data"><span class="spinner"></span> Loading cases…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- URL Parameters (hidden by default, moved below table) -->
     <div class="section collapsed" id="section-url">
       <div class="section-header" onclick="toggleSection('section-url')">
         <span class="section-title">URL Parameters</span>
@@ -219,7 +214,7 @@
       </div>
     </div>
 
-    <!-- Operation Name / Parameters section (hidden by default) -->
+    <!-- Operation Parameters (hidden by default, moved below table) -->
     <div class="section collapsed" id="section-params">
       <div class="section-header" onclick="toggleSection('section-params')">
         <span class="section-title">Operation Parameters</span>
@@ -249,24 +244,6 @@
       </div>
     </div>
 
-    <!-- Actions section (visible by default) -->
-    <div class="section" id="section-actions">
-      <div class="section-header" onclick="toggleSection('section-actions')">
-        <span class="section-title">Actions</span>
-        <button class="toggle-btn"><i class="arrow">▾</i> <span class="toggle-label">Hide</span></button>
-      </div>
-      <div class="section-body">
-        <div class="btn-card">
-          <div class="btn-row">
-            <button class="btn btn-list"      onclick="openList()">Open List</button>
-            <button class="btn btn-create"    onclick="openCreate()">Open Create</button>
-            <button class="btn btn-detail"    onclick="opendetail()">Open Detail</button>
-            <button class="btn btn-quickview" onclick="openquickview()">Quick View</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <script>
@@ -274,8 +251,7 @@
     function toggleSection(id) {
       const sec = document.getElementById(id);
       const collapsed = sec.classList.toggle('collapsed');
-      const label = sec.querySelector('.toggle-label');
-      label.textContent = collapsed ? 'Show' : 'Hide';
+      sec.querySelector('.toggle-label').textContent = collapsed ? 'Show' : 'Hide';
     }
 
     /* ── URL param cards ── */
@@ -290,7 +266,6 @@
     const params = new URLSearchParams(window.location.search);
     const row = document.getElementById('row');
 
-    // Auto-populate route key input from URL param
     const routingKeyParam = params.get('routing_key');
     if (routingKeyParam) document.getElementById('input_routekey').value = routingKeyParam;
 
@@ -305,9 +280,101 @@
       row.appendChild(card);
     });
 
-    /* ── Functions ── */
+    /* ── Auto-fetch on load if custid is present ── */
+    const custidOnLoad = params.get('custid');
+    if (custidOnLoad) {
+      fetchCases();
+    } else {
+      document.getElementById('case-tbody').innerHTML =
+        '<tr><td colspan="8" class="no-data">No custid parameter found in URL.</td></tr>';
+      setStatus('error', 'No custid in URL — cannot load cases.');
+    }
+
+    /* ── Fetch BPEM Cases ── */
+    async function fetchCases() {
+      const baseUrl = document.getElementById('odata-url').value.trim();
+      const client  = document.getElementById('odata-client').value.trim() || '400';
+      const user    = document.getElementById('odata-user').value.trim();
+      const pass    = document.getElementById('odata-pass').value;
+      const custid  = params.get('custid') || '';
+      const tbody   = document.getElementById('case-tbody');
+
+      if (!custid) { setStatus('error', 'No custid URL parameter found. Cannot filter cases.'); return; }
+
+      const filter = `BusinessPartnerNumber eq '${custid}'`;
+      const url = `${baseUrl.replace(/\/$/, '')}/?sap-client=${encodeURIComponent(client)}&$filter=${encodeURIComponent(filter)}&$format=json`;
+
+      setStatus('loading', 'Fetching cases from S4…');
+      tbody.innerHTML = `<tr><td colspan="8" class="no-data"><span class="spinner"></span> Loading…</td></tr>`;
+
+      try {
+        const credentials = btoa(`${user}:${pass}`);
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Basic ${credentials}`,
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status} – ${response.statusText}`);
+
+        const data = await response.json();
+        const results = data?.d?.results || data?.value || [];
+
+        if (results.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="no-data">No cases found for this customer.</td></tr>`;
+          setStatus('success', 'Fetch complete — 0 records.');
+          return;
+        }
+
+        tbody.innerHTML = results.map(c => `
+          <tr>
+            <td>${esc(c.BPEMCase)}</td>
+            <td>${esc(c.BPEMCaseTypeName)}</td>
+            <td>${esc(c.BPEMCaseCategoryName)}</td>
+            <td>${statusBadge(c.BPEMCaseStatusName)}</td>
+            <td>${esc(c.BPEMCaseMainObject || '—')}</td>
+            <td>${esc(c.Premise || '—')}</td>
+            <td>${esc(c.Team || '—')}</td>
+            <td>${esc(c.Duedate_T || '—')}</td>
+          </tr>
+        `).join('');
+
+        setStatus('success', `Fetch complete — ${results.length} record(s) returned.`);
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" class="no-data">Failed to load data. Check URL, credentials, or CORS policy.</td></tr>`;
+        setStatus('error', `Error: ${err.message}`);
+        console.error(err);
+      }
+    }
+
+    function setStatus(type, msg) {
+      const el = document.getElementById('table-status');
+      el.className = `table-status ${type}`;
+      el.innerHTML = type === 'loading'
+        ? `<span class="spinner"></span>${msg}`
+        : msg;
+    }
+
+    function statusBadge(status) {
+      if (!status) return '<span class="badge badge-default">—</span>';
+      const s = status.toLowerCase();
+      let cls = 'badge-default';
+      if (s.includes('open'))  cls = 'badge-open';
+      else if (s.includes('clos')) cls = 'badge-closed';
+      else if (s.includes('pend') || s.includes('new')) cls = 'badge-pending';
+      return `<span class="badge ${cls}">${esc(status)}</span>`;
+    }
+
+    function esc(v) {
+      return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    /* ── Navigation functions ── */
     function validate_input() {
-      var route = document.getElementById("input_routekey").value;
+      const route = document.getElementById("input_routekey").value;
       if (!route) throw new Error("Routing key is required.");
     }
 
@@ -317,7 +384,7 @@
       view = "list";
       document.getElementById("input_viewname").value = view;
       route = document.getElementById("input_routekey").value;
-      try { validate_input(); } catch (error) { console.error(error.message); }
+      try { validate_input(); } catch (e) { console.error(e.message); }
       window.parent.postMessage({ operation: oper, params: { routingKey: route, viewType: view } }, "*");
     }
 

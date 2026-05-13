@@ -1,0 +1,16 @@
+{
+  "name": "ext-customer-info",
+  "version": "1.0.0",
+  "description": "SAP BTP app — customer info UI + OData proxy for BPEM cases",
+  "main": "proxy.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}
