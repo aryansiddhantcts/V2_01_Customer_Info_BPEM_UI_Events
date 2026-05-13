@@ -1,4 +1,0 @@
-https://ext-customer-info.cfapps.us21.hana.ondemand.com/?custid=12&extcustid=23&cust_uuid=3343&cust_name=2343
-
-Routing key list:
-https://help.sap.com/docs/CX_NG_SVC/56436b4e8fa84dc8b4408c7795a012c4/d8176f3fca664f488cc139b691507765.html

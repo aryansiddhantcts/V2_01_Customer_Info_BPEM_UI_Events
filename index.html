@@ -80,16 +80,15 @@
     }
     .input-group input:focus { border-color: #a5b4fc; }
 
-    /* ── Button card ── */
-    .btn-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
-    .btn {
-      flex: 1 1 140px; padding: 9px 14px; border: 1px solid transparent;
-      border-radius: 6px; font-size: 13px; font-weight: 500;
-      cursor: pointer; transition: opacity 0.15s, transform 0.1s; font-family: inherit;
+    /* ── Small header buttons ── */
+    .hdr-btn {
+      display: inline-block; padding: 2px 8px; margin-left: 5px;
+      border: 1px solid transparent; border-radius: 4px;
+      font-size: 11px; font-weight: 500; cursor: pointer;
+      font-family: inherit; vertical-align: middle;
+      transition: opacity 0.15s;
     }
-    .btn:hover  { opacity: 0.8; }
-    .btn:active { transform: scale(0.97); }
+    .hdr-btn:hover { opacity: 0.75; }
     .btn-list      { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
     .btn-create    { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
     .btn-detail    { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; }
@@ -127,6 +126,16 @@
 
     .no-data { text-align: center; padding: 32px; color: #aaa; font-size: 13px; font-style: italic; }
 
+    .refresh-btn {
+      background: none; border: 1px solid #e8e8e8; border-radius: 4px;
+      padding: 1px 6px; margin-left: 8px; cursor: pointer;
+      font-size: 13px; color: #888; line-height: 1;
+      transition: color 0.15s, border-color 0.15s, transform 0.3s;
+      vertical-align: middle;
+    }
+    .refresh-btn:hover { color: #1d4ed8; border-color: #bfdbfe; }
+    .refresh-btn.spinning { animation: spin 0.7s linear infinite; }
+
     .spinner {
       display: inline-block; width: 14px; height: 14px;
       border: 2px solid #e8e8e8; border-top-color: #1d4ed8;
@@ -140,28 +149,17 @@
   <div class="container">
     <h2>Utilities Exception</h2>
 
-    <!-- Actions (visible by default) -->
-    <div class="section" id="section-actions">
-      <div class="section-header" onclick="toggleSection('section-actions')">
-        <span class="section-title">Actions</span>
-        <button class="toggle-btn"><i class="arrow">▾</i> <span class="toggle-label">Hide</span></button>
-      </div>
-      <div class="section-body">
-        <div class="btn-card">
-          <div class="btn-row">
-            <button class="btn btn-list"      onclick="openList()">Open List</button>
-            <button class="btn btn-create"    onclick="openCreate()">Open Create</button>
-            <button class="btn btn-detail"    onclick="opendetail()">Open Detail</button>
-            <button class="btn btn-quickview" onclick="openquickview()">Quick View</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- BPEM Case List (visible by default) -->
     <div class="section" id="section-cases">
       <div class="section-header" onclick="toggleSection('section-cases')">
-        <span class="section-title">BPEM Case List</span>
+        <span class="section-title">
+          BPEM Case List
+          <button class="refresh-btn" onclick="event.stopPropagation(); fetchCases();" title="Refresh cases">&#8635;</button>
+          <button class="hdr-btn btn-list"      onclick="event.stopPropagation(); openList();">View Cases</button>
+          <button class="hdr-btn btn-create"    onclick="event.stopPropagation(); openCreate();">Create Cases</button>
+          <button class="hdr-btn btn-detail"    onclick="event.stopPropagation(); opendetail();">View Details</button>
+          <button class="hdr-btn btn-quickview" onclick="event.stopPropagation(); openquickview();">Quick View</button>
+        </span>
         <button class="toggle-btn"><i class="arrow">▾</i> <span class="toggle-label">Hide</span></button>
       </div>
       <div class="section-body">
@@ -171,8 +169,8 @@
           <div style="display:none">
             <input id="odata-url"    type="text"     value="/sap/opu/odata/sap/Z_C_BPEM_CASE_ODATA_CDS/Z_C_BPEM_CASE_ODATA/" />
             <input id="odata-client" type="text"     value="400" />
-            <input id="odata-user"   type="text"     value="ASIDDHANT" />
-            <input id="odata-pass"   type="password" value="Oneplus!8t" />
+            <input id="odata-user"   type="text"     value="XYZ" />
+            <input id="odata-pass"   type="password" value="ABC" />
           </div>
 
           <!-- Status -->
@@ -306,6 +304,7 @@
 
       setStatus('loading', 'Fetching cases from S4…');
       tbody.innerHTML = `<tr><td colspan="8" class="no-data"><span class="spinner"></span> Loading…</td></tr>`;
+      document.querySelector('.refresh-btn')?.classList.add('spinning');
 
       try {
         const credentials = btoa(`${user}:${pass}`);
@@ -342,10 +341,12 @@
         `).join('');
 
         setStatus('success', `Fetch complete — ${results.length} record(s) returned.`);
+        document.querySelector('.refresh-btn')?.classList.remove('spinning');
 
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="8" class="no-data">Failed to load data. Check URL, credentials, or CORS policy.</td></tr>`;
         setStatus('error', `Error: ${err.message}`);
+        document.querySelector('.refresh-btn')?.classList.remove('spinning');
         console.error(err);
       }
     }

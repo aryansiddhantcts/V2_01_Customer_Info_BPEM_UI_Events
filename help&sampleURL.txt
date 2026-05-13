@@ -1,0 +1,63 @@
+https://ext-customer-info.cfapps.us21.hana.ondemand.com/?custid=12&extcustid=23&cust_uuid=3343&cust_name=2343
+
+Routing key list:
+https://help.sap.com/docs/CX_NG_SVC/56436b4e8fa84dc8b4408c7795a012c4/d8176f3fca664f488cc139b691507765.html
+
+Developer runs: cf push  (uses manifest.yml)
+                    │
+                    ▼
+         BTP runs: npm install  (uses package.json) -> npm install: tells to install dependencies and start the script node proxy.js
+                    │
+                    ▼
+         BTP runs: node proxy.js  (starts the server)
+                    │
+         ┌──────────┴──────────┐
+         │                     │
+   serves index.html     proxies /sap/**
+   to browser            to SAP S4 system
+
+Use of proxy 
+The proxy.js is not directly referenced in the HTML file at all — 
+there's no <script src="proxy.js"> or any import. The connection is indirect:
+
+Browser (index.html)
+      │
+      │  fetch('/sap/opu/odata/...')   ← relative URL, same origin
+      ▼
+proxy.js (Express server on same host)
+      │
+      │  forwards to https://utg-webdisp.utegration.com:44317/sap/opu/odata/...
+      ▼
+SAP S4 system  →  returns JSON  →  back to browser
+
+
+proxy.js — The Back-end Server
+A small Node.js/Express server that does 2 things:
+
+Serves index.html to the browser via express.static
+Proxies SAP OData calls — any request to /sap/** is forwarded 
+server-side to https://utg-webdisp.utegration.com:44317, bypassing the browser's CORS restriction. 
+Basic Auth credentials are passed through transparently.
+
+This is the core piece that solves the CORS problem — the browser never talks to SAP directly, only to the proxy on the same origin.
+
+The key is the relative URL in index.html
+In index.html, the hidden OData URL input is set to:
+jsvalue="/sap/opu/odata/sap/Z_C_BPEM_CASE_ODATA_CDS/Z_C_BPEM_CASE_ODATA/"
+This is a relative path — no host, no port. So when fetchCases() calls:
+jsconst response = await fetch(url, { ... });
+The browser sends the request to whatever host is serving the page. If the page is served by proxy.js on localhost:3000, 
+the request goes to localhost:3000/sap/opu/....
+
+proxy.js intercepts it
+In proxy.js, this line catches any request starting with /sap:
+jsapp.use('/sap', createProxyMiddleware({ target: SAP_TARGET, ... }))
+It forwards the full request server-side to the real SAP host, gets the response, and sends it back to the browser — completely bypassing CORS.
+
+proxy.js also serves index.html
+jsapp.use(express.static(path.join(__dirname)));
+This line makes proxy.js serve index.html as a static file. So when you open http://localhost:3000, 
+Express serves index.html — meaning both the page and the API are on the same origin (localhost:3000), which is exactly why CORS isn't an issue.
+
+In short: proxy.js is the web server. index.html is the page it serves. They never reference each other directly — 
+they work together purely through the relative URL /sap/....
